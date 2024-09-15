@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <form id="productForm">
+            <h2>Add or Update Insulin Product</h2>
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" required>
+
+            <label for="concentration">Concentration (units/ml):</label>
+            <input type="text" id="concentration" required>
+
+            <label for="unitsPerPen">Units per Pen/Vial:</label>
+            <input type="number" id="unitsPerPen" required>
+
+            <label for="costPerPen">Cost per Pen/Vial:</label>
+            <input type="number" id="costPerPen" required>
+
+            <button type="button" onclick="addProduct()">Add Product</button>
+        </form>
+
+        <h2>Insulin Products List</h2>
+        <div id="productList"></div>
+    </div>
+
+    <script>
+        const products = [];
+
+        function addProduct() {
+            const productName = document.getElementById('productName').value;
+            const concentration = document.getElementById('concentration').value;
+            const unitsPerPen = document.getElementById('unitsPerPen').value;
+            const costPerPen = document.getElementById('costPerPen').value;
+
+            const newProduct = {
+                name: productName,
+                concentration: concentration,
+                units: unitsPerPen,
+                cost: costPerPen,
+            };
+
+            products.push(newProduct);
+            updateProductList();
+        }
+
+        function updateProductList() {
+            const productListDiv = document.getElementById('productList');
+            productListDiv.innerHTML = '';
+
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>Concentration: ${product.concentration}</p>
+                    <p>Units per Pen: ${product.units}</p>
+                    <p>Cost per Pen: £${product.cost}</p>
+                    <p>Cost per Unit: £${(product.cost / product.units).toFixed(2)}</p>
+                `;
+                productListDiv.appendChild(productDiv);
+            });
+        }
+    </script>
+</body>
+</html>
